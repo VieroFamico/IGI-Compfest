@@ -76,6 +76,20 @@ public class GridBuildingSystem : MonoBehaviour
                 }
             }
         }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("Try to Place");
+            if (temp.CanBePlaced())
+            {
+                Debug.Log("Placed");
+                temp.Place();
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape)){
+            Debug.Log("Cancel Place");
+            ClearArea();
+            Destroy(temp.gameObject);
+        }
     }
 
     public void InitializeWithBuilding(GameObject building)
@@ -127,6 +141,7 @@ public class GridBuildingSystem : MonoBehaviour
 
     #endregion
 
+    #region Building Placement
     private void ClearArea()
     {
         TileBase[] toClear = new TileBase[prevArea.size.x * prevArea.size.y * prevArea.size.z];
@@ -150,10 +165,6 @@ public class GridBuildingSystem : MonoBehaviour
 
         for(int i = 0; i < baseArray.Length; i++)
         {
-            Debug.Log(baseArray[i]);
-            Debug.Log(baseArray[i] == tileBases[TileType.White]);
-            Debug.Log(baseArray[i] == tileBases[TileType.Green]);
-            Debug.Log(baseArray[i] == tileBases[TileType.Red]);
             if (baseArray[i] == null)
             {
                 FillTiles(tileArray, TileType.Red);
@@ -178,4 +189,25 @@ public class GridBuildingSystem : MonoBehaviour
         tempTileMap.SetTilesBlock(buildingArea, tileArray);
         prevArea = buildingArea;
     }
+
+    public bool CanTakeArea(BoundsInt area)
+    {
+        TileBase[] baseArea = GetTilesBlock(area, mainTileMap);
+        foreach (TileBase b in baseArea)
+        {
+            if(b.name == "green")
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    public void TakeArea(BoundsInt area)
+    {
+        SetTilesBlock(area, TileType.Empty, tempTileMap);
+        SetTilesBlock(area, TileType.Green, mainTileMap);
+    }
+
+    #endregion
 }

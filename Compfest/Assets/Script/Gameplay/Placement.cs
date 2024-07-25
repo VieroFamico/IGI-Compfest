@@ -17,4 +17,28 @@ public class Placement : MonoBehaviour
     {
         
     }
+
+    public bool CanBePlaced()
+    {
+        Vector3Int positionInt = GridBuildingSystem.instance.gridLayout.LocalToCell(transform.position);
+        BoundsInt areaTemp = area;
+        areaTemp.position = positionInt;
+
+        if(GridBuildingSystem.instance.CanTakeArea(areaTemp))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void Place()
+    {
+        Vector3Int positionInt = GridBuildingSystem.instance.gridLayout.LocalToCell(transform.position);
+        BoundsInt areaTemp = area;
+        areaTemp.position = positionInt;
+        placed = true;
+        GridBuildingSystem.instance.TakeArea(areaTemp);
+    }
+   
 }
