@@ -19,7 +19,7 @@ public class MainMenuManger : MonoBehaviour
     private void Start()
     {
         currentCamTarget = new GameObject();
-        currentCamTarget.transform.position = new Vector3 (0, 0, -40f);
+        currentCamTarget.transform.position = new Vector3 (0, 0, -30f);
 
         virtualCamera.m_Follow = currentCamTarget.transform;
         // Ensure the button has an onClick event listener
